@@ -12,10 +12,28 @@
   }
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p,
+  li,
+  blockquote {
+    text-wrap: pretty;
+  }
+
   a,
   button {
     @apply outline-accent outline-offset-1 focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;
+  }
+  button:not(:disabled) {
+    @apply active:scale-[0.96] transition-transform duration-150;
   }
   button:not(:disabled),
   [role="button"]:not(:disabled) {
@@ -54,11 +72,11 @@
   .scroll-to-top {
     @apply fixed bottom-6 right-6 z-50
            flex items-center justify-center
-           w-9 h-9 rounded-full
+           w-10 h-10 rounded-full
            bg-muted/70 border border-border
            text-muted-foreground
            shadow-sm cursor-pointer
-           transition-all duration-200;
+           transition-[color,background-color,box-shadow,opacity,transform] duration-200;
     &:hover {
       @apply text-accent shadow-md -translate-y-0.5;
     }
@@ -75,7 +93,7 @@
   }
 
   .nav-link {
-    @apply relative text-base no-underline text-muted-foreground transition-colors duration-200;
+    @apply relative inline-flex min-h-10 items-center text-base no-underline text-muted-foreground transition-colors duration-200;
     @apply hover:text-accent;
     @apply aria-[current=page]:text-foreground;
 

@@ -82,7 +82,13 @@
      ========================================= */
 
   .app-prose :where(img) {
-    @apply border-border rounded-xl border;
+    @apply rounded-xl;
+    outline: 1px solid rgba(0, 0, 0, 0.1);
+    outline-offset: -1px;
+  }
+
+  html[data-theme="dark"] .app-prose :where(img) {
+    outline-color: rgba(255, 255, 255, 0.1);
   }
 
   .app-prose :where(figcaption) {
