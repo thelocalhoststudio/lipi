@@ -30,7 +30,7 @@
 /* Dark theme values */
 [data-theme="dark"] {
   color-scheme: dark;
-  
+
   --background: #141413;
   --foreground: #ECE6DA;
   --accent: #C8A07A;
@@ -38,5 +38,5 @@
   --muted: #242422;
   --muted-foreground: #B3AB9D;
   --border: #34312B;
-  --selection: #3A3128;
+  --selection: #4A3520;
 }

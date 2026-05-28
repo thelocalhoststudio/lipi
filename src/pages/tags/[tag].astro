@@ -22,7 +22,6 @@ type Props = {
   archive: TagArchive;
 };
 
-const tagArchives = await getAllTagArchives();
 export function getTagTransitionName(
   tag: string
 ) {
@@ -42,6 +41,6 @@ const description = `Posts tagged "${titleify(archive.tag)}".`;
 >
   <PostFeed
     posts={archive.posts}
-    variant="timeline"
+    variant="archive"
   />
 </PageLayout>

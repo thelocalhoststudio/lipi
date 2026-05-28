@@ -1,10 +1,5 @@
 ---
 import HomeIcon from "@/assets/home.svg"
-type Props = {
-  class?: string;
-};
-
-const { class: className } = Astro.props;
 
 const pathname = Astro.url.pathname;
 
@@ -68,7 +63,8 @@ const breadcrumbs = segments.map(
               {isLast ? (
                 <span
                   aria-current="page"
-                  class="text-accent"
+                  class="text-accent max-w-[30ch] truncate"
+                  title={crumb.label}
                 >
                   {crumb.label}
                 </span>

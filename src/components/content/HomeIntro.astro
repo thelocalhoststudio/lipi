@@ -6,7 +6,7 @@ const Content = homeEntry ? (await render(homeEntry)).Content : null;
 
 ---
 
-<section class="home-intro flex flex-col mb-12 gap-4" data-pagefind-ignore>
+<section class="home-intro flex flex-col gap-4" data-pagefind-ignore>
   <div class="app-prose home-intro-content">
     {Content ? <Content /> : null}
   </div>
@@ -18,7 +18,7 @@ const Content = homeEntry ? (await render(homeEntry)).Content : null;
       {siteConfig.social.map((item) => (
         <a
           href={item.url}
-          class="nav-link"
+          class="text-sm text-muted-foreground hover:text-accent transition-colors duration-200 no-underline"
           target="_blank"
           rel="noopener noreferrer"
         >

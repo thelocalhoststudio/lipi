@@ -36,9 +36,10 @@ function isActive(url: string) {
       }
     </a>
 
-    <!-- Navigation -->
+    <!-- Navigation (hidden on mobile until toggled) -->
     <nav
-      class="order-3 flex w-full flex-wrap items-center gap-x-5 gap-y-1 font-ui sm:order-none sm:w-auto"
+      id="mobile-nav"
+      class="order-3 hidden w-full flex-wrap items-center gap-x-5 gap-y-2 font-ui pb-3 sm:flex sm:order-0 sm:w-auto sm:pb-0"
     >
       {
         siteConfig.navigation.map((item) => (
@@ -54,7 +55,7 @@ function isActive(url: string) {
     </nav>
 
     <!-- Actions -->
-    <div class="ml-auto flex items-center font-ui">
+    <div class="ml-auto flex items-center gap-2 font-ui">
       {
         siteConfig.showThemeToggle && (
           <button
@@ -75,9 +76,43 @@ function isActive(url: string) {
           </button>
         )
       }
+
+      <!-- Mobile menu toggle -->
+      <button
+        id="menu-toggle"
+        type="button"
+        class="sm:hidden inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-muted/70 text-muted-foreground hover:text-accent transition-colors duration-150"
+        aria-label="Toggle navigation"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+      >
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <line x1="2" y1="4" x2="13" y2="4" />
+          <line x1="2" y1="7.5" x2="13" y2="7.5" />
+          <line x1="2" y1="11" x2="13" y2="11" />
+        </svg>
+      </button>
     </div>
   </div>
 </header>
+
+<script>
+  function initMobileNav() {
+    const toggle = document.getElementById('menu-toggle');
+    const nav = document.getElementById('mobile-nav');
+    if (!toggle || !nav) return;
+
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      nav.classList.toggle('hidden', isOpen);
+      nav.classList.toggle('flex', !isOpen);
+    });
+  }
+
+  initMobileNav();
+  document.addEventListener('astro:after-swap', initMobileNav);
+</script>
 
 <style>
   .site-header {
@@ -113,7 +148,7 @@ function isActive(url: string) {
     left: 0;
     bottom: -2px;
     width: 100%;
-    height: 2px;
+    height: 3px;
     background: color-mix(
       in srgb,
       var(--accent) 75%,

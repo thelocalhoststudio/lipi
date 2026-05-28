@@ -1,11 +1,33 @@
 ---
-import { type Post, getPostUrl } from "@/utils/content";
-import { slugify } from "@/utils/text";
+import { type Post } from "@/utils/content";
 import SectionHeader from "@/components/SectionHeader.astro";
+import PostFeedItem, {
+  type PostFeedVariant,
+  type VariantConfig,
+} from "./PostFeedItem.astro";
 
-export type PostFeedVariant =
-  | "timeline"
-  | "archive";
+export type { PostFeedVariant };
+
+const variantConfigs: Record<PostFeedVariant, VariantConfig> = {
+  featured: {
+    showDescription: true,
+    showReadingTime: true,
+    titleClass: "font-content text-3xl leading-snug font-medium md:text-4xl",
+    contentSpacingClass: "pb-16",
+  },
+  timeline: {
+    showDescription: false,
+    showReadingTime: false,
+    titleClass: "font-content text-2xl leading-snug font-medium",
+    contentSpacingClass: "pb-10 sm:pl-4",
+  },
+  archive: {
+    showDescription: false,
+    showReadingTime: false,
+    titleClass: "font-content text-base leading-snug",
+    contentSpacingClass: "py-1.5",
+  },
+};
 
 type Props = {
   posts: Post[];
@@ -21,119 +43,43 @@ const {
   sectionDesc,
 } = Astro.props;
 
-function formatTimelineDate(date: Date) {
-  return new Intl.DateTimeFormat("en", {
-    month: "short",
-    day: "2-digit",
-    year: "numeric",
-  })
-    .format(date)
-    .toUpperCase();
-}
-
-function formatArchiveDate(date: Date) {
-  return new Intl.DateTimeFormat("en", {
-    month: "short",
-    day: "2-digit",
-    year: "numeric",
-  })
-    .format(date)
-    .toUpperCase();
-}
-
+const config = variantConfigs[variant];
 ---
+
 <section>
-  <SectionHeader
-    title={sectionTitle}
-    subheading={sectionDesc}
-  />
-  {
-  variant === "archive" ? (
-    <div class="space-y-12">
-      <ul class="space-y-1">
-        {posts.map((post) => (
-          <li>
-            <a
-              href={getPostUrl(
-                post.id,
-                post.filePath
-              )}
-              class="group grid grid-cols-[7rem_1fr] items-baseline gap-4 py-1.5 sm:grid-cols-[8rem_1fr]"
-            >
-              <time
-                datetime={post.data.published.toISOString()}
-                class="text-muted-foreground text-xs font-code uppercase tabular-nums sm:text-sm"
-              >
-                {formatArchiveDate(
-                  post.data.updated ??
-                    post.data.published
-                )}
-              </time>
+  <SectionHeader title={sectionTitle} subheading={sectionDesc} />
 
-              <span
-                class="leading-snug transition-colors group-hover:text-accent"
-                transition:name={slugify(post.data.title.replaceAll(".","-"))}
-              >
-                {post.data.title}
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  ) : (
-    <div class="timeline">
+  {variant === "featured" && (
+    <div>
       {posts.map((post) => (
-        <article class="group contents">
-          {/* Rail */}
-          <div class="relative text-left">
-            <time
-              datetime={post.data.published.toISOString()}
-              class="text-muted-foreground block pt-0.5 font-code text-xs uppercase tabular-nums sm:pt-1 sm:text-sm"
-            >
-              {formatTimelineDate(
-                post.data.updated ??
-                  post.data.published
-              )}
-            </time>
-
-            <span
-              class="border-border bg-muted group-hover:bg-accent absolute top-2.5 -right-5 h-2 w-2 rounded-full border"
-              aria-hidden="true"
-            />
-          </div>
-
-          {/* Content */}
-          <div class="space-y-2 pb-10 sm:pl-4">
-            <h2 class="font-content text-2xl leading-tight tracking-tight">
-              <a
-                href={getPostUrl(post.id, post.filePath)}
-                  class="transition-colors group-hover:text-accent"
-                transition:name={slugify(post.data.title.replaceAll(".", "-"))}
-              >
-                {post.data.title}
-              </a>
-            </h2>
-
-            {
-              post.data.description && (
-                <p class="text-muted-foreground max-w-2xl text-base leading-relaxed">
-                  {post.data.description}
-                </p>
-              )
-            }
-          </div>
-        </article>
+        <PostFeedItem post={post} variant="featured" />
       ))}
     </div>
-  )
-}
+  )}
+
+  {variant === "timeline" && (
+    <div class="timeline">
+      {posts.map((post) => (
+        <PostFeedItem post={post} variant="timeline" />
+      ))}
+    </div>
+  )}
+
+  {variant === "archive" && (
+    <ul class="space-y-1">
+      {posts.map((post) => (
+        <li>
+          <PostFeedItem post={post} variant="archive" />
+        </li>
+      ))}
+    </ul>
+  )}
 </section>
 
-<style>
+<!-- <style>
+  @reference "../../styles/global.css";
 
-  @reference  "../../styles/global.css";
-  
+  /* Desktop: two-column grid with vertical rail */
   @media (min-width: 768px) {
     .timeline {
       display: grid;
@@ -153,30 +99,18 @@ function formatArchiveDate(date: Date) {
     }
   }
 
+  /* Mobile: intimate vertical stack, no rail */
   @media (max-width: 767px) {
     .timeline {
-      @apply relative space-y-10 ps-6;
+      @apply space-y-10;
     }
 
-    .timeline::before {
-      content: "";
-      @apply bg-border absolute top-0 bottom-0 left-0 w-px;
+    .timeline-date {
+      @apply mb-2;
     }
 
-    .timeline article {
-      @apply relative;
-    }
-
-    .timeline article > div:first-child {
-      @apply relative mb-2 text-left pe-0;
-    }
-
-    .timeline article > div:first-child span {
-      @apply -left-7 top-1.5 right-auto;
-    }
-
-    .timeline article > div:last-child h2 {
-      @apply text-2xl;
+    .timeline-dot {
+      @apply hidden;
     }
   }
-</style>
+</style> -->

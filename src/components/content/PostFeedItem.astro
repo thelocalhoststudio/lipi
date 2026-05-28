@@ -1,0 +1,132 @@
+---
+import { type Post, getPostUrl } from "@/utils/content";
+import { slugify, calculateReadingTime } from "@/utils/text";
+import SparklesIcon from "@/assets/sparkles.svg"
+import siteConfig from "@/site.config";
+
+export type PostFeedVariant = "featured" | "timeline" | "archive";
+
+type Props = {
+  post: Post;
+  variant: PostFeedVariant;
+};
+
+const { post, variant } = Astro.props;
+
+const url = getPostUrl(post.id, post.filePath);
+const { title, description, published, updated, category } = post.data;
+const displayDate = new Intl.DateTimeFormat("en", {
+  month: "short",
+  day: "2-digit",
+  year: "numeric",
+})
+  .format(updated ?? published)
+  .toUpperCase();
+
+const readingTime = siteConfig.showReadingTime
+    ? calculateReadingTime(post.body ?? "").text
+    : null;
+
+const titleSlug = slugify(title.replaceAll(".", "-"));
+const titleClassMap = {
+  featured: "font-content text-3xl leading-tight font-medium md:text-4xl",
+  timeline: "font-content text-2xl leading-snug font-medium mt-0",
+  archive: "font-content text-base leading-snug",
+};
+
+const isFeatured: boolean = variant === "featured";
+const showTimeline: boolean = variant === "timeline";
+const showDescription: boolean = variant === "featured";
+const showMeta: boolean = variant === "featured" || variant === "timeline";
+const titleClass = titleClassMap[variant];
+---
+{
+  variant === "archive" ? (
+    <a
+      href={url}
+      class="group flex flex-row gap-6 items-center py-2 no-underline"
+    >
+      <time
+        datetime={published.toISOString()}
+        class="font-code text-xs uppercase tabular-nums text-muted-foreground"
+      >
+        {displayDate}
+      </time>
+    
+      <h2
+        class:list={[
+          titleClass,
+          "transition-colors duration-200 group-hover:text-accent",
+        ]}
+        transition:name={titleSlug}
+      >
+        {title}
+      </h2>
+    </a>
+  ) : (
+  // <!-- Timeline -->
+  <div class="w-full mt-2 first:mt-0">
+    <!-- Heading -->
+    <div class="my-1 gap-2 flex items-center">
+      {
+        isFeatured && (
+          <SparklesIcon class="text-accent size-6 "/>
+        )
+      }
+      <time
+        datetime={published.toISOString()}
+        class="font-code text-xs uppercase tabular-nums text-muted-foreground"
+      >
+        {displayDate}
+      </time>
+    </div>
+    <!-- End Heading -->
+    <!-- Item -->
+    <div class="group flex gap-x-3 relative">
+      {
+        showTimeline && (
+          // <!-- Timeline Icon -->
+          <div 
+            class="relative last:after:hidden after:absolute after:top-6 after:bottom-0 after:inset-s-3.5 
+              after:-translate-x-[0.5px] after:border-s after:border-border">
+            <div class="relative z-10 size-7 pt-2 flex justify-center items-center">
+              <div class="size-3 rounded-full bg-muted border-2 border-border group-hover:bg-accent"></div>
+            </div>
+          </div>
+          // <!-- End Icon -->
+        )
+      }
+
+      <!-- Right Content -->
+      <div class="grow pt-0.5 pb-8">
+        <a class="no-underline transition-colors duration-200 group-hover:text-accent" href={url}>
+          <h2 
+            class={titleClass}
+            transition:name={titleSlug}
+          >
+            {title}
+          </h2>  
+        </a>
+        {
+          showMeta && (
+            <div class="mt-3 flex flex-wrap items-center gap-x-2 font-ui text-sm text-muted-foreground">
+              <span>{category}</span>
+              <span aria-hidden="true">·</span>
+              <span>{readingTime}</span>
+            </div>
+          )
+        }
+        {
+          showDescription && (
+            <p class="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
+              {description}
+            </p>
+          )
+        }
+      </div>
+      <!-- End Right Content -->
+    </div>
+    <!-- End Item -->
+  </div>
+  <!-- End Timeline -->
+)}

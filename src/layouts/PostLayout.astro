@@ -75,14 +75,6 @@ const structuredData = generatePostSchema(post);
       <!-- Context -->
       <div class="text-muted-foreground flex flex-wrap items-center gap-3 text-xs font-medium tracking-[0.2em] uppercase mb-6 sm:mb-8">
         <span>{section}</span>
-
-        <span aria-hidden="true">·</span>
-
-        <span>
-          {formatDate(
-            post.data.published
-          )}
-        </span>
       </div>
 
       <!-- Title -->
@@ -147,18 +139,15 @@ const structuredData = generatePostSchema(post);
       {
         post.data.tags &&
           post.data.tags.length > 0 && (
-            <div class="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-2 text-sm font-code tracking-wide">
+            <div class="flex flex-wrap items-center gap-2">
               {post.data.tags.map(
-                (tag, index) => (
-                  <>
-                    {index > 0 && (
-                      <span aria-hidden="true">
-                        ·
-                      </span>
-                    )}
-
-                    <span>{tag}</span>
-                  </>
+                (tag) => (
+                  <a
+                    href={`/tags/${slugify(tag)}`}
+                    class="rounded bg-muted px-2 py-0.5 text-xs font-ui text-muted-foreground hover:text-accent transition-colors no-underline"
+                  >
+                    {tag}
+                  </a>
                 )
               )}
             </div>
@@ -189,6 +178,7 @@ const structuredData = generatePostSchema(post);
     </header>
   </Fragment>
 
+  <section>
     <article data-pagefind-body>
     <meta data-pagefind-meta="title[content]" content={title} />
     <meta data-pagefind-sort="date[content]" content={published.toISOString()} />
@@ -200,13 +190,15 @@ const structuredData = generatePostSchema(post);
 	    <div class="app-prose post-content">
 	      <slot />
 	    </div>
-
-    <section>
-      <SharePost title={post.data.title} />
-      <div class="divider" />
-    </section>
+      <div class="section-divider flex items-center justify-center gap-4 text-muted-foreground mt-4 text-xl" aria-hidden="true">
+        <span>·</span>
+        <span>·</span>
+        <span>·</span>
+      </div>
 	  </article>
-
+    <SharePost title={post.data.title} />
+  </section>
+  
   <Fragment slot="navigation">
     <PostNavigation
       prevPost={prevPost}
