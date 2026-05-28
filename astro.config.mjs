@@ -64,6 +64,14 @@ export default defineConfig({
       fallbacks: ["monospace"],
       formats: ["woff", "ttf"],
     },
+    {
+      name: "Shippori Mincho",
+      cssVariable: "--font-lipi-display",
+      provider: fontProviders.google(),
+      weights: [ 400, 500, 600, 700],
+      fallbacks: ["serif"],
+      formats: ["woff", "ttf"],
+    }
   ],
 
   i18n:{

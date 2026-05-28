@@ -6,7 +6,7 @@
      ========================================= */
 
   .app-prose {
-    @apply prose max-w-none;
+    @apply prose max-w-none text-base;
   }
 
   .app-prose :where(p) {
@@ -18,7 +18,7 @@
      ========================================= */
 
   .app-prose :where(h1, h2, h3, h4, h5, h6) {
-    @apply text-foreground scroll-mt-24 font-semibold tracking-tight;
+    @apply text-foreground scroll-mt-24 tracking-tight;
   }
 
   .app-prose :where(h1) {
@@ -30,7 +30,7 @@
   }
 
   .app-prose :where(h3) {
-    @apply mt-12 mb-4 text-xl leading-snug font-medium;
+    @apply mt-12 mb-4 text-2xl leading-snug font-medium;
   }
 
   .app-prose :where(h4) {
@@ -42,7 +42,7 @@
      ========================================= */
 
   .app-prose :where(p, ul, ol, blockquote, table) {
-    @apply text-foreground leading-7;
+    @apply text-foreground leading-normal;
   }
 
   /* Constrain measure for comfortable reading (~68 chars/line) */
@@ -198,7 +198,7 @@
 
   @media (min-width: 768px) {
     .post-content > p:first-of-type::first-letter {
-      @apply text-accent font-content font-semibold;
+      @apply text-accent font-display font-semibold;
       initial-letter: 3;
       margin-inline-end: 0.12em;
     }

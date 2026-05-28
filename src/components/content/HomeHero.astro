@@ -1,0 +1,57 @@
+---
+import { getEntry, render } from "astro:content";
+import siteConfig from "@/site.config";
+
+const variant = siteConfig.heroVariant;
+
+const homeEntry = await getEntry("pages", "home-intro");
+const Content = homeEntry ? (await render(homeEntry)).Content : null;
+---
+
+{variant === "studio" ? (
+  <section class="home-hero flex flex-col my-8 sm:my-12 gap-8" data-pagefind-ignore>
+    <p class="font-display text-3xl sm:text-4xl leading-relaxed text-foreground/80">
+      {siteConfig.description}
+    </p>
+    <nav
+      class="flex flex-wrap font-mono items-center gap-x-4 text-sm"
+      aria-label="Social links"
+    >
+      {siteConfig.social.map((item) => (
+        <a
+          href={item.url}
+          class="text-sm text-muted-foreground hover:text-accent transition-colors duration-200 no-underline lowercase"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {item.title}
+        </a>
+      ))}
+    </nav>
+    <div class="divider" />
+  </section>
+) : (
+  <section class="home-hero flex flex-col gap-4" data-pagefind-ignore>
+    <div class="app-prose home-intro-content">
+      {Content ? <Content /> : null}
+    </div>
+    <div class="mt-4">
+      <nav
+        class="flex flex-wrap font-mono items-center gap-x-4 text-sm"
+        aria-label="Social links"
+      >
+        {siteConfig.social.map((item) => (
+          <a
+            href={item.url}
+            class="text-sm text-muted-foreground hover:text-accent transition-colors duration-200 no-underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {item.title}
+          </a>
+        ))}
+      </nav>
+      <div class="divider" />
+    </div>
+  </section>
+)}

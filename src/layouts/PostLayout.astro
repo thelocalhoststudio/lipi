@@ -4,6 +4,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { type Post, getPostUrl, getPostSlug, getAllPosts, getRelatedPosts } from "@/utils/content";
 import { calculateReadingTime, slugify } from "@/utils/text";
 import Breadcrumb from "@/components/Breadcrumb.astro";
+import ReadingProgress from "@/components/ReadingProgress.astro";
 import SharePost from "@/components/content/SharePost.astro";
 import SEO from "@/components/SEO.astro";
 import PostFeed from "@/components/content/PostFeed.astro";
@@ -38,20 +39,18 @@ function formatMonthYear(date: Date) {
     .format(date)
     .toUpperCase();
 }
+const { title, description, cover, published, updated, tags } = post.data;
 
 const allPosts    = await getAllPosts();
 const relatedPosts = getRelatedPosts(post, allPosts, siteConfig.relatedPosts);
-const publishedDate = formatDate( post.data.published);
 
-const updatedDate = post.data.updated
-  ? formatDate(post.data.updated)
-  : null;
+const updatedDate = updated
+  ? formatDate(updated)
+  : formatDate(published);
 
 const section = post.data.category ?? "Posts";
 const readTime    = calculateReadingTime(post.body ?? "").text;
 const showReadingTime = siteConfig.showReadingTime || false;
-
-const { title, description, cover, published, updated, tags } = post.data;
 
 const ogImage = `/og/posts/${getPostSlug(post.id, post.filePath)}.png`;
 
@@ -73,14 +72,14 @@ const structuredData = generatePostSchema(post);
     <!-- Post Header -->
     <header class="space-y-4">
       <!-- Context -->
-      <div class="text-muted-foreground flex flex-wrap items-center gap-3 text-xs font-medium tracking-[0.2em] uppercase mb-6 sm:mb-8">
+      <div class="text-muted-foreground flex flex-wrap items-center gap-3 text-xs font-medium tracking-widest mb-1 sm:mb-2">
         <span>{section}</span>
       </div>
 
       <!-- Title -->
       <div class="space-y-4">
         <h1 
-          class="font-content text-foreground text-4xl leading-[1.05] font-semibold tracking-tight md:text-5xl"
+          class="font-display text-foreground text-4xl sm:text-5xl sm:mt-0 leading-normal tracking-tight"
           transition:name={slugify(post.data.title.replaceAll(".", "-"))}
         >
           {post.data.title}
@@ -88,7 +87,7 @@ const structuredData = generatePostSchema(post);
 
         {
           post.data.description && (
-            <p class="text-muted-foreground max-w-2xl text-lg leading-relaxed">
+            <p class="text-muted-foreground max-w-2xl text-sm sm:text-base leading-snug">
               {post.data.description}
             </p>
           )
@@ -96,30 +95,16 @@ const structuredData = generatePostSchema(post);
       </div>
 
       <!-- Metadata -->
-      <div class="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-2 mt-8 text-sm italic">
+      <div class="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-2 mt-8 text-sm">
         <span>
-          By {post.data.author ?? `${siteConfig.author}`}
+          {post.data.author ?? `${siteConfig.author}`}
         </span>
 
         <span aria-hidden="true">·</span>
 
         <time datetime={post.data.published.toISOString()}>
-          {publishedDate}
+          {updatedDate}
         </time>
-
-        {
-          updatedDate && (
-            <>
-              <span aria-hidden="true">
-                ·
-              </span>
-
-              <span>
-                Updated {updatedDate}
-              </span>
-            </>
-          )
-        }
 
         {
           showReadingTime && (
@@ -139,12 +124,12 @@ const structuredData = generatePostSchema(post);
       {
         post.data.tags &&
           post.data.tags.length > 0 && (
-            <div class="flex flex-wrap items-center gap-2">
+            <div class="flex flex-wrap items-center gap-3">
               {post.data.tags.map(
                 (tag) => (
                   <a
                     href={`/tags/${slugify(tag)}`}
-                    class="rounded bg-muted px-2 py-0.5 text-xs font-ui text-muted-foreground hover:text-accent transition-colors no-underline"
+                    class="text-xs font-ui text-muted-foreground hover:text-accent transition-colors no-underline"
                   >
                     {tag}
                   </a>
@@ -153,15 +138,18 @@ const structuredData = generatePostSchema(post);
             </div>
           )
       }
+      <div class="divider" />
+    </header>
+  </Fragment>
 
-      <!-- Cover -->
+  <section>
+    <!-- Cover -->
       {
         post.data.cover && (
           <div class="overflow-hidden rounded-2xl pt-4">
 	            <img
 	              src={
-	                typeof post.data.cover ===
-                "string"
+	                typeof post.data.cover === "string"
                   ? post.data.cover
                   : post.data.cover.src
 	              }
@@ -174,11 +162,6 @@ const structuredData = generatePostSchema(post);
           </div>
         )
       }
-      <div class="divider" />
-    </header>
-  </Fragment>
-
-  <section>
     <article data-pagefind-body>
     <meta data-pagefind-meta="title[content]" content={title} />
     <meta data-pagefind-sort="date[content]" content={published.toISOString()} />
@@ -213,5 +196,8 @@ const structuredData = generatePostSchema(post);
         sectionTitle="Related"
       />
     )}
+  </Fragment>
+  <Fragment slot="scripts">
+    <ReadingProgress />
   </Fragment>
 </BaseLayout>

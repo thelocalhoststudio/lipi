@@ -1,0 +1,33 @@
+---
+---
+
+<div class="reading-progress-bar" aria-hidden="true"></div>
+
+<style>
+  .reading-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    transform-origin: top center;
+    transform: scaleY(0);
+    background: color-mix(in srgb, var(--accent) 70%, transparent);
+    z-index: 50;
+    pointer-events: none;
+    animation: reading-progress-y linear both;
+    animation-timeline: scroll();
+    animation-range: 0 100%;
+  }
+
+  @keyframes reading-progress-y {
+    from { transform: scaleY(0); }
+    to   { transform: scaleY(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reading-progress-bar {
+      animation: none;
+    }
+  }
+</style>

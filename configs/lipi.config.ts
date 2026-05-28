@@ -44,6 +44,8 @@ const userConfig: UserConfig = {
 
   showThemeToggle: true,
   showReadingTime: true,
+
+  heroVariant: "studio",
 };
 
 export default userConfig;

@@ -4,7 +4,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import SEO from "@/components/SEO.astro";
 import { getAllPosts } from "@/utils/content";
 import PostFeed from "@/components/content/PostFeed.astro";
-import HomeIntro from "@/components/content/HomeIntro.astro";
+import HomeHero from "@/components/content/HomeHero.astro";
 import { generateWebsiteSchema } from "@/utils/schema";
 
 const allPosts = await getAllPosts();
@@ -14,7 +14,7 @@ const structuredData = generateWebsiteSchema();
 	<SEO slot="seo" title="Home" description={siteConfig.description} ogImage="/og/default.png" />
 	<h1 class="sr-only">{siteConfig.title}</h1>
 	
-	<HomeIntro />
+	<HomeHero />
 	
 	<section class="space-y-4">
 		<PostFeed
@@ -24,15 +24,15 @@ const structuredData = generateWebsiteSchema();
 
 		<PostFeed
 			posts={allPosts.slice(1, siteConfig.recentPosts)}
-			variant="timeline"
+			variant="archive"
 			sectionTitle="Recent"
 		/>
 
 		<a
 			href="/archive"
-			class="text-sm text-muted-foreground hover:text-accent transition-colors duration-200 no-underline inline-flex items-center gap-1.5"
+			class="text-sm font-ui text-muted-foreground hover:text-accent transition-colors duration-200 no-underline inline-flex items-center gap-1.5"
 		>
-			View all posts <span aria-hidden="true">→</span>
+			all posts <span aria-hidden="true">→</span>
 		</a>
 	</section>
 

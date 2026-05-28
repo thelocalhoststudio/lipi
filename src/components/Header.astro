@@ -29,7 +29,7 @@ function isActive(url: string) {
             class="h-8 w-auto"
           />
         ) : (
-          <span class="text-foreground font-content text-2xl font-semibold tracking-tight">
+          <span class="text-foreground font-ui lowercase text-2xl font-semibold tracking-tight">
             {siteConfig.title}
           </span>
         )
@@ -62,7 +62,7 @@ function isActive(url: string) {
           <button
             type="button"
             id="theme-toggle"
-            class="bg-muted/70 text-muted-foreground hover:bg-muted hover:text-accent inline-flex h-9 min-w-9 items-center gap-2 rounded-full border border-border px-3 text-sm transition-[background-color,color,transform] duration-150"
+            class="bg-muted/70 text-muted-foreground hover:bg-muted hover:text-accent inline-flex h-9 min-w-9 items-center gap-2 rounded-md border border-border px-3 text-sm transition-[background-color,color,transform] duration-150"
             aria-label="Toggle theme"
           >
             <span class="hidden items-center gap-2 dark:flex">
@@ -82,7 +82,7 @@ function isActive(url: string) {
       <button
         id="menu-toggle"
         type="button"
-        class="sm:hidden inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-muted/70 text-muted-foreground hover:text-accent transition-colors duration-150"
+        class="sm:hidden inline-flex h-9 w-9 items-center justify-center rounded-md border border-border bg-muted/70 text-muted-foreground hover:text-accent transition-colors duration-150"
         aria-label="Toggle navigation"
         aria-expanded="false"
         aria-controls="mobile-nav"
@@ -142,7 +142,7 @@ function isActive(url: string) {
   }
 
   /* Reading progress */
-  .site-header::after {
+  /* .site-header::after {
     opacity: 0;
     content: "";
     position: absolute;
@@ -184,5 +184,5 @@ function isActive(url: string) {
     .site-header::after {
       opacity: 0;
     }
-  }
+  } */
 </style>

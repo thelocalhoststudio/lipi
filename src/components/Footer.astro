@@ -2,12 +2,12 @@
 import siteConfig from "@/site.config";
 ---
 
-<footer class="border-border mt-20 border-t py-8">
+<footer class="border-border mt-20 border-t py-8 ">
   <div class="app-layout">
     <div class="flex flex-col items-center justify-between gap-4 text-sm sm:flex-row sm:items-center">
       <!-- Copyright -->
-      <div class="order-last sm:order-1">
-        <p class="text-muted-foreground">
+      <div class="order-last">
+        <p class="text-muted-foreground font-code tabular-nums">
         &copy; {new Date().getFullYear()}{" "}
         {siteConfig.author}
         </p>
@@ -19,7 +19,7 @@ import siteConfig from "@/site.config";
           <div class="order-1">
             <nav
               aria-label="Social links"
-              class="flex flex-wrap items-center gap-4"
+              class="flex flex-wrap text-sm font-code items-center gap-4"
             >
               {siteConfig.social.map((item) => (
                 <a
@@ -27,7 +27,7 @@ import siteConfig from "@/site.config";
                   target="_blank"
                   rel="noopener noreferrer me"
                   aria-label={`${item.title} (opens in new tab)`}
-                  class="text-muted-foreground hover:text-foreground transition-colors"
+                  class="text-muted-foreground hover:text-foreground lowercase transition-colors"
                 >
                   {item.title}
                 </a>

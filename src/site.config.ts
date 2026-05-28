@@ -34,6 +34,8 @@ export interface UserConfig {
   showThemeToggle?: boolean;
   showReadingTime?: boolean;
 
+  heroVariant?: "default" | "studio";
+
 };
 
 const siteConfig = {
@@ -56,6 +58,8 @@ const siteConfig = {
   showLogo: userConfig.showLogo ?? false,
   showThemeToggle: userConfig.showThemeToggle ?? true,
   showReadingTime: userConfig.showReadingTime ?? true,
+
+  heroVariant: userConfig.heroVariant ?? "default",
 };
 
 export default siteConfig;

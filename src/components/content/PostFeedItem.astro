@@ -20,8 +20,14 @@ const displayDate = new Intl.DateTimeFormat("en", {
   day: "2-digit",
   year: "numeric",
 })
-  .format(updated ?? published)
-  .toUpperCase();
+  .format(updated ?? published);
+
+const archiveDate = new Intl.DateTimeFormat("en", {
+  month: "short",
+  year: "numeric",
+})
+  .format(updated ?? published);
+
 
 const readingTime = siteConfig.showReadingTime
     ? calculateReadingTime(post.body ?? "").text
@@ -29,9 +35,15 @@ const readingTime = siteConfig.showReadingTime
 
 const titleSlug = slugify(title.replaceAll(".", "-"));
 const titleClassMap = {
-  featured: "font-content text-3xl leading-tight font-medium md:text-4xl",
-  timeline: "font-content text-2xl leading-snug font-medium mt-0",
-  archive: "font-content text-xl leading-snug",
+  featured: "font-display text-4xl leading-tight font-medium md:text-4xl",
+  timeline: "font-display text-2xl leading-snug font-medium mt-0",
+  archive: "font-display text-xl leading-snug order-first sm:order-last",
+};
+
+const dateClassMap = {
+  featured: "font-ui text-xs tabular-nums text-muted-foreground",
+  timeline: "font-code text-xs uppercase tabular-nums text-muted-foreground",
+  archive: "font-code text-xs tabular-nums text-muted-foreground",
 };
 
 const isFeatured: boolean = variant === "featured";
@@ -39,29 +51,41 @@ const showTimeline: boolean = variant === "timeline";
 const showDescription: boolean = variant === "featured";
 const showMeta: boolean = variant === "featured" || variant === "timeline";
 const titleClass = titleClassMap[variant];
+const dateClass = dateClassMap[variant]; 
 ---
 {
   variant === "archive" ? (
     <a
       href={url}
-      class="group flex flex-row gap-6 items-center py-2 no-underline"
+      class="flex flex-col sm:flex-row space-y-1 space-x-1 py-3 group items-baseline sm:items-center sm:gap-6 sm:gap-8 sm:py-1.5 no-underline text-foreground"
     >
-      <time
-        datetime={published.toISOString()}
-        class="font-code text-xs uppercase tabular-nums text-muted-foreground"
-      >
-        {displayDate}
-      </time>
-    
-      <h2
-        class:list={[
-          titleClass,
-          "transition-colors duration-200 group-hover:text-accent",
-        ]}
+      <span
+        class={titleClass}
         transition:name={titleSlug}
       >
         {title}
-      </h2>
+      </span>
+      <div class="w-auto flex items-baseline sm:items-center gap-1.5 sm:gap-2 shrink-0">
+        <time
+          datetime={published.toISOString()}
+          class={dateClass}
+        >
+          {archiveDate}
+        </time>
+        {category && (
+          <>
+            <span
+              class="text-muted-foreground text-sm"
+              aria-hidden="true"
+            >
+              ·
+            </span>
+            <span class="font-ui text-sm text-muted-foreground lowercase">
+              {category}
+            </span>
+          </>
+        )}
+      </div>
     </a>
   ) : (
   // <!-- Timeline -->
@@ -70,12 +94,12 @@ const titleClass = titleClassMap[variant];
     <div class="my-1 gap-2 flex items-center">
       {
         isFeatured && (
-          <SparklesIcon class="text-accent size-6 "/>
+          <SparklesIcon class="text-accent size-5 "/>
         )
       }
       <time
         datetime={published.toISOString()}
-        class="font-code text-xs uppercase tabular-nums text-muted-foreground"
+        class:list={[dateClass]}
       >
         {displayDate}
       </time>

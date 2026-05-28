@@ -11,6 +11,7 @@
   --font-content: var(--font-lipi-serif);
   --font-ui: var(--font-lipi-sans);
   --font-code: var(--font-lipi-mono);
+  --font-display: var(--font-lipi-display);
 }
 
 /* Light theme values */

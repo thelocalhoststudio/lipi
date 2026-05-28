@@ -11,7 +11,7 @@ interface Props {
 const { prevPost, nextPost } = Astro.props;
 ---
 <section class="flex flex-col">
-  <nav class="post-navigation py-4" aria-label="Post navigation">
+  <nav class="post-navigation my-2" aria-label="Post navigation">
     {/* GLOBAL PREV / NEXT */}
     {(prevPost || nextPost) && (
       <div class:list={[
@@ -26,13 +26,13 @@ const { prevPost, nextPost } = Astro.props;
                   prevPost.id,
                   prevPost.filePath
                 )}
-	              class="group flex flex-1 flex-col gap-1 rounded-xl border border-border p-4 no-underline transition-colors hover:border-accent/50"
+	              class="group flex flex-1 flex-col gap-1 p-4 no-underline transition-colors hover:border-accent/50"
             >
-	              <div class="flex items-center justify-start gap-2 text-sm font-ui font-medium uppercase tracking-wide text-muted-foreground">
+	              <div class="flex items-center justify-start gap-2 text-sm font-ui lowercase tracking-wide text-muted-foreground">
                 <ArrowLeft class="size-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
                 <span class="text-minimal">Previous</span>
               </div>
-	              <span class="text-xl leading-snug text-foreground">
+	              <span class="text-xl font-display leading-snug text-foreground">
                 {prevPost.data.title}
               </span>
             </a>
@@ -44,13 +44,13 @@ const { prevPost, nextPost } = Astro.props;
                   nextPost.id,
                   nextPost.filePath
                 )}
-	              class="group flex flex-1 flex-col gap-1 rounded-xl border border-border p-4 text-right no-underline transition-colors hover:border-accent/50"
+	              class="group flex flex-1 flex-col gap-1 p-4 text-right no-underline transition-colors hover:border-accent/50"
             >
-	              <div class="flex items-center justify-end gap-2 text-sm font-ui font-medium uppercase tracking-wide text-muted-foreground">
+	              <div class="flex items-center justify-end gap-2 text-sm font-ui lowercase tracking-wide text-muted-foreground">
                 <span class="text-minimal">Next</span>
                 <ArrowRight class="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
               </div>
-	              <span class="text-xl leading-snug text-foreground">
+	              <span class="text-xl font-display leading-snug text-foreground">
                 {nextPost.data.title}
               </span>
             </a>

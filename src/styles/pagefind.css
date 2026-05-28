@@ -26,5 +26,5 @@ html[data-pf-theme="light"] {
   --pf-hover: var(--muted);
   --pf-mark: var(--foreground);
   --pf-scroll-shadow: rgba(0, 0, 0, 0.08);
-  --pf-border-radius: 20px;
+  --pf-border-radius: 6px;
 }
