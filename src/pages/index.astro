@@ -16,16 +16,24 @@ const structuredData = generateWebsiteSchema();
 	
 	<HomeIntro />
 	
-	<PostFeed
-		posts={allPosts.slice(0, siteConfig.recentPosts)}
-		variant="timeline"
-		sectionTitle="Recent"
-	/>
+	<section class="space-y-4">
+		<PostFeed
+			posts={allPosts.slice(0, 1)}
+			variant="featured"
+		/>
 
-	<a
-		href="/archive"
-		class="text-sm text-muted-foreground hover:text-accent transition-colors duration-200 no-underline inline-flex items-center gap-1.5"
-	>
-		View all posts <span aria-hidden="true">→</span>
-	</a>
+		<PostFeed
+			posts={allPosts.slice(1, siteConfig.recentPosts)}
+			variant="timeline"
+			sectionTitle="Recent"
+		/>
+
+		<a
+			href="/archive"
+			class="text-sm text-muted-foreground hover:text-accent transition-colors duration-200 no-underline inline-flex items-center gap-1.5"
+		>
+			View all posts <span aria-hidden="true">→</span>
+		</a>
+	</section>
+
 </BaseLayout>

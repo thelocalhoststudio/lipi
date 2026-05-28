@@ -178,6 +178,7 @@ const structuredData = generatePostSchema(post);
     </header>
   </Fragment>
 
+  <section>
     <article data-pagefind-body>
     <meta data-pagefind-meta="title[content]" content={title} />
     <meta data-pagefind-sort="date[content]" content={published.toISOString()} />
@@ -189,13 +190,15 @@ const structuredData = generatePostSchema(post);
 	    <div class="app-prose post-content">
 	      <slot />
 	    </div>
-
-    <section>
-      <SharePost title={post.data.title} />
-      <div class="divider" />
-    </section>
+      <div class="section-divider flex items-center justify-center gap-4 text-muted-foreground mt-4 text-xl" aria-hidden="true">
+        <span>·</span>
+        <span>·</span>
+        <span>·</span>
+      </div>
 	  </article>
-
+    <SharePost title={post.data.title} />
+  </section>
+  
   <Fragment slot="navigation">
     <PostNavigation
       prevPost={prevPost}

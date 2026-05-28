@@ -4,9 +4,7 @@ type Props = {
 };
 
 const { title } = Astro.props;
-
 const postUrl = Astro.url.href;
-
 const shareLinks = [
   {
     label: "X",
@@ -24,13 +22,20 @@ const shareLinks = [
 ];
 ---
 
-<section class="space-y-4 pt-8">
+<section class="space-y-2 pt-8">
   <p class="font-ui text-sm text-muted-foreground">
-    Share this post
+    Enjoyed this article?
   </p>
 
-  <div class="flex flex-wrap items-center gap-4 text-sm">
-    {shareLinks.map((link) => (
+  <div class="flex flex-wrap items-center gap-4 text-sm font-sans">
+    <button
+      id="copy-link"
+      type="button"
+      class="text-muted-foreground hover:text-foreground inline-flex min-h-10 items-center transition-[color,transform] duration-150"
+    >
+      Copy Link →
+    </button>
+    <!-- {shareLinks.map((link) => (
       <a
         href={link.href}
         target="_blank"
@@ -39,15 +44,7 @@ const shareLinks = [
       >
         {link.label}
       </a>
-    ))}
-
-    <button
-      id="copy-link"
-      type="button"
-      class="text-muted-foreground hover:text-foreground inline-flex min-h-10 items-center transition-[color,transform] duration-150"
-    >
-      Copy Link
-    </button>
+    ))} -->
   </div>
 </section>
 
