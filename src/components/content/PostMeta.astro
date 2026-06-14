@@ -33,7 +33,7 @@ const readingTime =
   category && (
     <span
       class:list={[
-        "uppercase",
+        "",
         { "text-primary": accentCategory },
       ]}
     >
@@ -44,14 +44,14 @@ const readingTime =
 
 <time
   datetime={published.toISOString()}
-  class="tabular-nums italic"
+  class="tabular-nums"
 >
   {displayDate}
 </time>
 
 {
   readingTime && (
-    <span class="italic">
+    <span>
       {readingTime}
     </span>
   )

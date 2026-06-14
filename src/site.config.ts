@@ -37,6 +37,8 @@ export interface UserConfig {
 
   heroVariant?: "default" | "studio";
 
+  annotation?: string;
+
 };
 
 const siteConfig = {
@@ -64,6 +66,8 @@ const siteConfig = {
   showReadingTime: userConfig.showReadingTime ?? true,
 
   heroVariant: userConfig.heroVariant ?? "default",
+
+  annotation: userConfig.annotation,
 };
 
 export default siteConfig;

@@ -53,6 +53,8 @@ const userConfig: UserConfig = {
   showReadingTime: true,
 
   heroVariant: "studio",
+
+  annotation: "Writing between filter coffees and terminal windows.",
 };
 
 export default userConfig;

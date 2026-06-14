@@ -1,6 +1,7 @@
 ---
 import { getPostUrl, type Post } from "@/utils/content";
 import { slugify } from "@/utils/text";
+import PostTitle from "./PostTitle.astro";
 import PostMeta from "@/components/content/PostMeta.astro";
 import SectionHeader from "@/components/SectionHeader.astro";
 
@@ -11,93 +12,41 @@ type Props = {
 const { post } = Astro.props;
 const { description } = post.data;
 
-const annotation = "Written between filter coffees";
-
 const url = getPostUrl(post.id, post.filePath);
-const titleSlug = slugify(post.data.title.replaceAll(".", "-"));
 const sectionTitle = "Featured"
 ---
 
 <section class="my-2 md:my-4 py-4">
-  
+
   <SectionHeader title={sectionTitle} />
   <article class="featured-post md:max-w-xl">
-    <!-- <div class="hidden md:flex absolute md:top-6 right-full mr-8 w-16 flex-col gap-2 text-xs text-muted-foreground">
-      <PostMeta post={post} accentCategory showReadingTime />
-    </div> -->
-    
-    <div class="flex flex-col"> 
+    <div class="flex flex-col">
       <div class="flex flex-col gap-2">
-        <a href={url} class="no-underline group"> 
-          <h2 
-            class="font-content text-2xl mt-0 md:text-4xl font-medium" 
-            transition:name={titleSlug} > 
-            {post.data.title} 
-          </h2> 
-        </a> 
-        
-        <div class="post-meta flex flex-row items-baseline gap-2 mb-2 text-xs text-muted-foreground">
-          <PostMeta post={post} accentCategory showReadingTime />
+        <PostTitle post={post}
+          class="text-2xl md:text-3xl font-medium mt-0 text-balance" />
+        <div class="post-meta flex flex-row items-baseline gap-2 mb-2 text-xs font-ui text-muted-foreground">
+          <PostMeta post={post} showReadingTime />
         </div>
 
-        {/* Description */} 
-        {description && ( 
-          <p 
-            class="text-sm md:text-sm italic leading-normal text-muted-foreground md:max-w-xl"> 
-            {description} 
-          </p> 
-        )} 
+        {/* Description */}
+        {description && (
+          <p
+            class="text-sm md:text-sm italic leading-normal text-muted-foreground md:max-w-xl">
+            {description}
+          </p>
+        )}
 
-        {/* CTA row */} 
-        <div class="flex md:flex-row flex-wrap items-center md:justify-between gap-4 mt-4">  
-          <a href={url} 
+        {/* CTA row */}
+        <div class="flex md:flex-row flex-wrap items-center gap-4 mt-4">
+          <a href={url}
             class="group inline-cta text-muted-foreground hover:text-foreground"
             aria-label={`Read: ${post.data.title}`}
           >
             <span class="inline-cta-line group-hover:w-16"></span>
-            Read the note
+            Continue reading
           </a>
-          <span
-            class="featured-hand hidden md:block"
-          >
-            {annotation}
-          </span>
-          <div class="-mt-1 md:hidden">
-            <p class="font-annotation text-sm italic text-primary -rotate-1">
-              {annotation}
-            </p>
-          </div>
-        </div> 
+        </div>
       </div>
-    </div> 
-  </article> 
+    </div>
+  </article>
 </section>
-
-<style>
-
-  /* the one handwritten flourish on the homepage */
-  .featured-hand {
-    font-family: var(--font-lipi-hand);
-    font-size: 1.25rem;
-    right: -0.5rem;
-    color: var(--color-primary);
-    transform: rotate(-2deg);
-    max-width: 14ch;
-    text-align: center;
-    line-height: 1.2;
-    margin-top: -0.5rem;
-  }
-
-  .featured-hand::before {
-    content: '';
-    display: block;
-    font-size: 0.875rem;
-    margin-bottom: 0.25rem;
-    width: 38px;
-    height: 1px;
-    background: var(--color-primary);
-    margin: 0 auto 0.35rem;
-    transform: rotate(-2deg);
-  }
-
-</style>

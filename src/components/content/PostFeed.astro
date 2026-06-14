@@ -48,19 +48,19 @@ const years = Object.keys(postsByYear)
 
         {/* Year header */}
         <div class="flex items-baseline justify-between py-2 mb-4 border-border/50 border-b">
-          <span class="text-lg tracking-[0.12em] uppercase italic text-muted-foreground">
+          <span class="text-base tracking-[0.12em] uppercase italic text-muted-foreground">
             {year}
           </span>
-          <span class="text-xs font-code text-muted-foreground">
+          <span class="font-code text-sm tabular-nums text-muted-foreground">
             {yearPosts.length} {yearPosts.length === 1 ? "writing" : "writings"}
           </span>
         </div>
 
         {/* Posts in this year */}
         {yearPosts.map((post) => (
-          <div class="flex flex-col space-y-3 py-4 border-b last:border-0 border-border/50 group hover:pl-2 transition-[padding] duration-300 ease-fluid">
+          <div class="flex flex-col space-y-3 py-4 group hover:translate-x-2 transition-transform ease-fluid">
             <PostTitle post={post} 
-              class="text-base md:text-xl font-medium text-balance leading-snug link-hover"/>
+              class="text-lg md:text-xl font-medium text-balance leading-snug link-hover"/>
             {post.data.description && (
               <p class="text-sm italic leading-normal text-muted-foreground md:max-w-xl">
                 {post.data.description}

@@ -2,7 +2,8 @@
 import siteConfig from "@/site.config";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { type Post, getPostSlug, getAllPosts, getRelatedPosts } from "@/utils/content";
-import { calculateReadingTime, slugify } from "@/utils/text";
+import { slugify } from "@/utils/text";
+import { getCoverImage, getGalleryImages } from "@/utils/image";
 import Breadcrumb from "@/components/Breadcrumb.astro";
 import ReadingProgress from "@/components/ReadingProgress.astro";
 import SharePost from "@/components/content/SharePost.astro";
@@ -13,6 +14,9 @@ import PostMeta from "@/components/content/PostMeta.astro";
 import RelatedPosts from "@/components/content/RelatedPosts.astro";
 import Footer from "@/components/Footer.astro";
 import SectionHeader from "@/components/SectionHeader.astro";
+import ImageWrapper from "@/components/ImageWrapper.astro";
+import PostGallery from "@/components/content/PostGallery.astro";
+import GalleryInit from "@/components/GalleryInit.astro";
 
 type Props = {
   post: Post;
@@ -42,23 +46,14 @@ function formatMonthYear(date: Date) {
     .format(date)
     .toUpperCase();
 }
-const { title, description, cover, published, updated, tags } = post.data;
+const { title, description, cover, published, tags } = post.data;
 
 const allPosts    = await getAllPosts();
 const relatedPosts = getRelatedPosts(post, allPosts, siteConfig.relatedPosts);
 const ogImage = `/og/posts/${getPostSlug(post.id, post.filePath)}.png`;
 const structuredData = generatePostSchema(post);
-
-const displayDate = new Intl.DateTimeFormat("en", {
-  month: "short",
-  year: "numeric",
-}).format(updated ?? published);
-
-const readingTime =
-  siteConfig.showReadingTime
-    ? calculateReadingTime(post.body ?? "").text
-    : null;
-
+const coverImage = getCoverImage(cover);
+const galleryImages = getGalleryImages(post.filePath ?? '');
 ---
 
 <BaseLayout schema={structuredData}>
@@ -77,7 +72,7 @@ const readingTime =
     <header class="space-y-4">
       <!-- Title -->
       <h1 
-          class="font-content text-3xl leading-tight tracking-tight font-medium md:text-4xl mb-2 text-balance"
+          class="text-3xl leading-tight tracking-tight font-medium md:text-4xl mb-2 text-balance"
           transition:name={slugify(post.data.title.replaceAll(".", "-"))}
       >
           {post.data.title}
@@ -93,7 +88,7 @@ const readingTime =
       }
       
       <!-- Metadata -->
-      <div class="post-meta flex flex-row items-baseline gap-2 mb-3 text-xs text-muted-foreground">
+      <div class="post-meta flex flex-row items-baseline gap-2 mb-3 text-xs font-ui text-muted-foreground">
         <PostMeta post={post} accentCategory showReadingTime />
       </div>
       <div class="divider" />
@@ -102,37 +97,38 @@ const readingTime =
 
   <section>
     <!-- Cover -->
-      {
-        post.data.cover && (
-          <div class="overflow-hidden rounded-2xl pt-4">
-	            <img
-	              src={
-	                typeof post.data.cover === "string"
-                  ? post.data.cover
-                  : post.data.cover.src
-	              }
-	              alt={post.data.title}
-	              decoding="async"
-	              fetchpriority="high"
-	              loading="eager"
-	              class="aspect-3/2 w-full object-cover outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10"
-	            />
-          </div>
-        )
-      }
-    <article data-pagefind-body class="flex flex-col space-y-2">
+    {coverImage && (
+      <section class="breakout overflow-hidden rounded-sm ring ring-border shadow-sm">
+        <ImageWrapper src={coverImage} alt={title} class="block w-full h-auto" fetchPriority="high" />
+      </section>
+    )}
+
+    <!-- Post Content -->
+    <article data-pagefind-body class="post-content flex flex-col space-y-2">
       <meta data-pagefind-meta="title[content]" content={title} />
       <meta data-pagefind-sort="date[content]" content={published.toISOString()} />
 	    <meta data-pagefind-filter="collection[content]" content={post.collection} />
       {tags?.map((tag) => (
         <meta data-pagefind-filter="tag[content]" content={tag} />
       ))}
-      <!-- Content -->
+      <!-- Rendered markdown -->
 	    <div class="app-prose post-content">
 	      <slot />
         <hr />
 	    </div>
+      <!-- Galley -->
+      {galleryImages.length > 0 && (
+        <PostGallery images={galleryImages} galleryId={post.id} />
+      )}
 	  </article>
+
+    {/* Post annotation — document-level context, posts only, no footer fallback */}
+    {post.data.annotation && (
+      <span class="font-annotation block text-primary max-w-70 md:max-w-80 mt-4 text-xl md:text-2xl -rotate-1 leading-snug">
+        {post.data.annotation}
+      </span>
+    )}
+
     <!-- Tags -->
     {
       post.data.tags &&
@@ -174,9 +170,11 @@ const readingTime =
   </Fragment>
   <Fragment slot="scripts">
     <ReadingProgress />
+    <GalleryInit />
   </Fragment>
 
   <Fragment slot="footer">
     <Footer />
   </Fragment>
+  
 </BaseLayout>
