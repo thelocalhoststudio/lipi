@@ -25,7 +25,7 @@ function isActive(url: string) {
             class="h-8 w-auto"
           />
         ) : (
-          <span class="text-foreground font-content text-2xl font-semibold tracking-tight">
+          <span class="text-foreground font-ui text-2xl font-semibold tracking-tight">
             {siteConfig.title}<span class="text-primary font-normal">.</span>
           </span>
         )
@@ -34,12 +34,12 @@ function isActive(url: string) {
 
     <div class="nav-right flex flex-row items-center gap-4 ">
       <!-- Desktop Navigation -->
-      <nav class="hidden sm:flex items-center gap-6 font-content italic text-sm">
+      <nav class="hidden sm:flex items-center gap-6 font-ui text-sm">
         {
           siteConfig.navigation.map((item) => (
             <a
               href={item.url}
-              class="nav-link link-hover"
+              class="nav-link link-hover tracking-wide"
               aria-current={isActive(item.url) ? "page" : undefined}
             >
               {item.title}
@@ -95,7 +95,7 @@ function isActive(url: string) {
         siteConfig.navigation.map((item) => (
           <a
             href={item.url}
-            class="mobile-nav-item" 
+            class="mobile-nav-item  tracking-wide" 
             aria-current={isActive(item.url) ? "page" : undefined}
           >
             <span>{item.title}</span>
@@ -204,7 +204,7 @@ function isActive(url: string) {
     justify-content: space-between;
     padding: 0.875rem 1rem;
     border-bottom: 0.5px solid var(--border);
-    font-family: var(--font-content);
+    font-family: var(--font-ui);
     font-style: italic;
     font-size: 15px;
     color: var(--muted-foreground);

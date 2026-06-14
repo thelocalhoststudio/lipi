@@ -9,6 +9,11 @@ import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { rawFonts } from "./src/plugins/rawFonts";
 import { unified } from '@astrojs/markdown-remark';
+import remarkCallouts from './src/plugins/remark-callouts';
+import { remarkImageProcessing } from './src/plugins/remark-image-processing';
+import { remarkExternalLinks } from './src/plugins/remark-external-links.ts';
+import { remarkObsidian } from './src/plugins/remark-obsidian.ts';
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -74,6 +79,12 @@ export default defineConfig({
   ],
   
   vite: {
+    // server: {
+    //   watch: {
+    //     ignored: ['**/.obsidian/**', '**/_bases/**', '**/bases/**', '**/_home/**', '**/home/**', '**/_base/**', '**/base/**']
+    //   }
+    // },
+    // assetsInclude: ['**/*.base', '**/.obsidian/**', '**/_bases/**'],
     build: {
       // Per-page CSS splitting. Caches better than one giant bundle for
       // return visitors who navigate between pages.
@@ -117,27 +128,35 @@ export default defineConfig({
     processor: unified({
       gfm: true,
       smartypants: true,
-      rehypePlugins: [
-      rehypeSlug,
-      rehypeUnwrapImages,
-      [
-        rehypeAutolinkHeadings,
-        {
-          behavior: "append",
-          properties: {
-            className: [
-              "heading-anchor",
-            ],
-            ariaLabel:
-              "Copy heading link",
-          },
-          content: {
-            type: "text",
-            value: "↗",
-          },
-        },
+      remarkPlugins: [
+        // remarkObsidianCore,
+        // remarkGfm,
+        remarkObsidian,
+        remarkExternalLinks,
+        remarkImageProcessing,
+        remarkCallouts,
       ],
-    ],
+      rehypePlugins: [
+        rehypeSlug,
+        rehypeUnwrapImages,
+        [
+          rehypeAutolinkHeadings,
+          {
+            behavior: "append",
+            properties: {
+              className: [
+                "heading-anchor",
+              ],
+              ariaLabel:
+                "Copy heading link",
+            },
+            content: {
+              type: "text",
+              value: "↗",
+            },
+          },
+        ],
+      ],
     }),
   },
 });

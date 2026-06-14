@@ -1,0 +1,60 @@
+---
+/**
+ * PostGallery.astro
+ *
+ * Gallery section rendered at the end of a post via the `after` slot in BlogLayout.
+ * Only rendered when the post has images in its gallery/ subdirectory.
+ *
+ * GLightbox is loaded from CDN — injected via the `scripts` slot in BaseLayout.
+ * The galleryId ties all images in this post to one lightbox group.
+ *
+ * Usage in BlogLayout.astro:
+ *   import { getGalleryImages } from '@/utils/image.utils';
+ *   import PostGallery from '@/components/PostGallery.astro';
+ *
+ *   const galleryImages = getGalleryImages(entry.filePath);
+ *
+ *   {galleryImages.length > 0 && (
+ *     <PostGallery slot="after" images={galleryImages} galleryId={entry.id} />
+ *   )}
+ */
+import GalleryImage from '@/components/content/PostGalleryImage.astro';
+import type { GalleryImage as GalleryImageType } from '@/utils/image';
+import SectionHeader from '@/components/SectionHeader.astro';
+
+interface Props {
+  images: GalleryImageType[];
+  galleryId: string;
+  title?: string; // optional section heading override
+}
+
+const { images, galleryId, title = 'Gallery' } = Astro.props;
+---
+
+<section class="post-gallery" data-pagefind-ignore aria-label={title}>
+  <div class="post-gallery__header flex items-baseline gap-3 mb-4">
+    <SectionHeader title='Gallery' />
+    <span class="post-gallery__count font-code text-sm tabular-nums text-muted-foreground">{images.length} photo{images.length !== 1 ? 's' : ''}</span>
+  </div>
+
+  <div class="gallery-grid">
+    {images.map((image) => (
+      <GalleryImage image={image} galleryId={galleryId} />
+    ))}
+  </div>
+</section>
+
+<!-- GLightbox init — scoped to this component's gallery only -->
+<script>
+  import GLightbox from 'glightbox';
+
+  // Initialise after DOM is ready — Astro handles this via module scripts
+  const lightbox = GLightbox({
+    selector: '.glightbox',
+    touchNavigation: true,
+    loop: true,
+    autoplayVideos: false,
+    keyboardNavigation: true,
+    closeButton: true,
+  });
+</script>

@@ -1,0 +1,32 @@
+---
+---
+<script>
+  import GLightbox from 'glightbox';
+
+  function initGallery() {
+    const content = document.querySelector('.post-content');
+    if (!content) return;
+
+    content
+      .querySelectorAll(
+        '.gallery-grid .gallery-item__image, .gallery-single .gallery-item__image'
+      )
+      .forEach((img) => {
+        if (img.closest('.post-gallery')) return;
+        img.classList.add('glightbox');
+        img.setAttribute('data-type', 'image');
+        img.setAttribute('data-gallery', 'post-inline-gallery');
+        img.setAttribute('data-description', img.alt || '');
+      });
+
+    GLightbox({
+      selector: '.post-content .gallery-item__image.glightbox',
+      touchNavigation: true,
+      loop: true,
+      closeButton: true,
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initGallery);
+  document.addEventListener('astro:after-swap', initGallery);
+</script>

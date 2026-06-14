@@ -14,18 +14,18 @@ function removeDupsAndLowerCase(array: string[]) {
 
 const postsCollection = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: `./${POSTS_PATH}` }),
-  schema: ({ image }) => 
-    z.object({
-      title: z.string(),
-      description: z.string(),
-      published: z.coerce.date(),
-      updated: z.coerce.date().optional(),
-      category: z.string().optional().default("Travels"),
-      tags: z.array(z.string()).transform(removeDupsAndLowerCase).optional(),
-      cover: image().or(z.string()).optional(),
-      draft: z.boolean().default(false),
-      lang: z.string().optional(),
-    })
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    published: z.coerce.date(),
+    updated: z.coerce.date().optional(),
+    category: z.string().optional().default("Travels"),
+    tags: z.array(z.string()).transform(removeDupsAndLowerCase).optional(),
+    cover: z.string().optional(),
+    draft: z.boolean().default(false),
+    lang: z.string().optional(),
+    annotation: z.string().optional(),
+  })
 });
 
 const pagesCollection = defineCollection({
@@ -36,6 +36,7 @@ const pagesCollection = defineCollection({
     updated: z.coerce.date(),
     draft: z.boolean().default(false),
     lang: z.string().optional(),
+    annotation: z.string().optional(),
   })
 });
 

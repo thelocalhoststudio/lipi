@@ -32,11 +32,7 @@ const description =
   showHeader={false}
 >
 
-  <PageHeader {title} subheading={description} >
-    <div slot="meta" class="mt-4">
-      {allPosts.length} writings
-    </div>
-  </PageHeader>
+  <PageHeader {title} subheading={description} />
 
   <PostFeed
     posts={page.data}

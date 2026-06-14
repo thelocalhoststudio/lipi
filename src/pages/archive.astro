@@ -87,7 +87,7 @@ function formatDay(date: Date) {
           aria-label={`${year}`}
         >
           <!-- Year header -->
-          <div class="mb-2 flex items-baseline justify-between">
+          <div class="border-b pb-2 mb-4 flex items-baseline justify-between">
             <span class="font-code text-md font-medium uppercase tracking-widest text-muted-foreground">
               {year}
             </span>
@@ -95,7 +95,7 @@ function formatDay(date: Date) {
               <span class="count-display">{posts.length}</span>&thinsp;writings
             </span>
           </div>
-          <div class="border-t border-border mb-2" aria-hidden="true" />
+          <div class="mb-2" aria-hidden="true" />
 
           <!-- Post list -->
           <ul>

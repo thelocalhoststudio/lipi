@@ -1,0 +1,38 @@
+---
+/**
+ * GalleryImage.astro
+ *
+ * Single image within a gallery grid.
+ * Wraps Astro's <Image /> for optimisation.
+ * GLightbox picks up the `data-gallery` attribute and `href` for the full-size view.
+ */
+
+import ImageWrapper from '@/components/ImageWrapper.astro';
+import type { GalleryImage } from '@/utils/image';
+
+interface Props {
+  image: GalleryImage;
+  galleryId: string; // ties all images in this post to one lightbox group
+}
+
+const { image, galleryId } = Astro.props;
+---
+
+<a
+  href={image.src.src}
+  class="gallery-item glightbox"
+  data-gallery={galleryId}
+  data-description={image.alt}
+  aria-label={image.alt}
+>
+  <ImageWrapper
+    src={image.src}
+    alt={image.alt}
+    width={360}
+    height={240}
+    quality={78}
+    class="gallery-item__image"
+    loading="lazy"
+    bare
+  />
+</a>

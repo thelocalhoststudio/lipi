@@ -28,11 +28,10 @@ const { prevPost, nextPost } = Astro.props;
                 )}
 	              class="group flex flex-1 flex-col gap-1 no-underline transition-colors"
             >
-	              <div class="flex items-center justify-start gap-2 text-sm font-ui lowercase tracking-wide text-muted-foreground">
-                <ArrowLeft class="size-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
-                <span class="text-minimal">Previous</span>
+              <div class="flex items-center justify-start gap-2 group inline-cta text-muted-foreground">
+                Previous Article
               </div>
-	              <span class="text-base md:text-lg font font-medium font-content leading-snug text-foreground">
+              <span class="text-base md:text-lg font font-medium font-content leading-snug text-foreground link-hover">
                 {prevPost.data.title}
               </span>
             </a>
@@ -46,11 +45,10 @@ const { prevPost, nextPost } = Astro.props;
                 )}
 	              class="group flex flex-1 flex-col gap-1 text-right no-underline transition-colors"
             >
-	              <div class="flex items-center justify-end gap-2 text-sm font-ui lowercase tracking-wide text-muted-foreground">
-                <span class="text-minimal">Next</span>
-                <ArrowRight class="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-              </div>
-	              <span class="text-base md:text-lg font-medium font-content leading-snug text-foreground">
+              <div class="flex items-center justify-end gap-2 group inline-cta text-muted-foreground">
+                Next Article
+              </div>  
+              <span class="text-base md:text-lg font-medium font-content leading-snug text-foreground link-hover">
                 {nextPost.data.title}
               </span>
             </a>

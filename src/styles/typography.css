@@ -10,7 +10,7 @@
   }
 
   .app-prose :where(p) {
-    @apply my-6;
+    @apply mt-6;
   }
 
   /* =========================================
@@ -18,23 +18,23 @@
      ========================================= */
 
   .app-prose :where(h1, h2, h3, h4, h5, h6) {
-    @apply text-foreground scroll-mt-24 tracking-tight;
+    @apply text-foreground scroll-mt-24 tracking-tight font-light;
   }
 
   .app-prose :where(h1) {
-    @apply text-4xl leading-tight;
+    @apply text-3xl leading-tight font-medium;
   }
 
   .app-prose :where(h2) {
-    @apply mt-16 mb-5 text-3xl leading-tight;
+    @apply text-2xl leading-tight font-normal;
   }
 
   .app-prose :where(h3) {
-    @apply mt-12 mb-4 text-2xl leading-snug font-medium;
+    @apply text-xl leading-snug;
   }
 
   .app-prose :where(h4) {
-    @apply text-xl;
+    @apply text-lg;
   }
 
   /* =========================================
@@ -43,11 +43,6 @@
 
   .app-prose :where(p, ul, ol, table) {
     @apply text-foreground leading-relaxed;
-  }
-
-  /* Constrain measure for comfortable reading (~68 chars/line) */
-  .app-prose :where(p, ul, ol, blockquote, h1, h2, h3, h4, h5, h6) {
-    max-width: 68ch;
   }
 
   .app-prose :where(strong) {
@@ -162,7 +157,7 @@
      ========================================= */
 
   .app-prose :where(blockquote) {
-    @apply border-primary border-s-[0.5px] ps-5 my-6 italic;
+    @apply border-primary border-s-2 ps-5 my-6;
     quotes: "\201C" "\201D" "\2018" "\2019";
   }
   

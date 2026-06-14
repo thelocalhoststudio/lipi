@@ -3,12 +3,12 @@ import siteConfig from "@/site.config";
 
 export interface Props {
   meta?: string;
-  anno?: string;
+  annotation?: string;
 }
 
 const {
   meta = 'A personal publication &middot; Travels &middot; Technology<br>And everyday notes',
-  anno = "You've reached the end. The internet rarely rewards this behavior."
+  annotation,
 } = Astro.props;
 ---
 
@@ -19,9 +19,11 @@ const {
         {siteConfig.author}<span class="text-primary font-normal">.</span>
       </span>
       <span class="font-code text-muted-foreground text-balance tracking-wide text-sm text-center leading-relaxed" set:html={meta} />
-      <span class="font-annotation block text-primary max-w-70 md:max-w-80 mx-auto mt-6 text-xl md:text-2xl text-center -rotate-1 leading-snug">
-        {anno}
-      </span>
+      {annotation && (
+        <span class="font-annotation block text-primary max-w-70 md:max-w-80 mx-auto mt-6 text-xl md:text-2xl text-center -rotate-1 leading-snug">
+          {annotation}
+        </span>
+      )}
     </div>
   </div>
 </footer>
