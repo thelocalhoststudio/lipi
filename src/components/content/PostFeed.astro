@@ -2,22 +2,17 @@
 // PostFeed.astro
 import { type Post } from "@/utils/content";
 import SectionHeader from "@/components/SectionHeader.astro";
-import PostFeedItem, { type PostFeedVariant } from "./PostFeedItem.astro";
 import PostTitle from "./PostTitle.astro";
 import PostMeta from "./PostMeta.astro";
 
-export type { PostFeedVariant };
-
 type Props = {
   posts: Post[];
-  variant?: PostFeedVariant;
   sectionTitle?: string;
   sectionDesc?: string;
 };
 
 const {
   posts,
-  variant = "timeline",
   sectionTitle,
   sectionDesc,
 } = Astro.props;

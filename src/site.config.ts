@@ -1,4 +1,4 @@
-import userConfig from "../configs/lipi.config";
+import userConfig from "../configs/user.config";
 
 export interface NavItem {
   title: string;
